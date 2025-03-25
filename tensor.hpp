@@ -6,8 +6,6 @@
 #include <type_traits>
 #include <numeric>
 
-#include <iostream>
-
 namespace ml {
 
 // Very basic (and naive) implementation of a tensor.
