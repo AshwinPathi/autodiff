@@ -1,4 +1,7 @@
 *.o
 *.gch
 *.out
-
+data/
+build/
+old_code/
+run
