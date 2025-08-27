@@ -17,6 +17,7 @@ fi
 # build with cmake
 cd "${build_directory}"
 cmake ..
+cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_ASAN=ON ..
 cmake --build .
 
 # copy to root for convenience

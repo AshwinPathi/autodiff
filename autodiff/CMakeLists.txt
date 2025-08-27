@@ -16,3 +16,17 @@ file(GLOB_RECURSE SOURCES "src/*.cpp")
 
 # Create executable
 add_executable(my_project ${SOURCES})
+
+# Enable AddressSanitizer if supported
+option(ENABLE_ASAN "Enable AddressSanitizer" ON)
+
+if(ENABLE_ASAN)
+    message(STATUS "AddressSanitizer enabled")
+
+    # Append flags for Clang/GCC
+    set(ASAN_FLAGS "-fsanitize=address -fno-omit-frame-pointer")
+
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ASAN_FLAGS}")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ASAN_FLAGS}")
+    set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} ${ASAN_FLAGS}")
+endif()

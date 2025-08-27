@@ -5,6 +5,7 @@
 #include <queue>
 #include <unordered_set>
 #include <vector>
+#include <cmath>
 
 #include "autodiff/concepts.h"
 #include "autodiff/ops.h"
@@ -32,7 +33,7 @@ class Node : public std::enable_shared_from_this<Node<T>> {
     /**************************************
                    Backprop
     ***************************************/
-    void get_gradients()() {
+    void get_gradients() {
         std::vector<Expression> sorted_nodes = input_topological_ordering();
 
         for (auto& node : sorted_nodes) {
@@ -121,9 +122,12 @@ class Node : public std::enable_shared_from_this<Node<T>> {
         Node<T>* weak_ref = new_expr.get();
         // a = x^b
         // da/dx = b * x ^ (b - 1)
+        // a = b^x
+        // da/dx = log(b) * b^x
         new_expr->backprop_fn_ = [this, other, weak_ref]() {
             this->accumulate_grad(other->value() * std::pow(this->value(), other->value() - 1) *
                                   weak_ref->grad());
+            other->accumulate_grad(std::log(this->value()) * std::pow(this->value(), other->value()) * weak_ref->grad());
         };
         return new_expr;
     }

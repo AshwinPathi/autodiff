@@ -12,7 +12,7 @@ int main() {
     auto x = grad::constant(1.f);
     auto sigm = sigmoid(x);
 
-    sigm->get_gradients()();
+    sigm->get_gradients();
     std::cout << sigm->value() << "\n";
     std::cout << x->grad() << "\n"; // ds/dx @ x = 1
 
