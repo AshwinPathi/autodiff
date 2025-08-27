@@ -32,7 +32,7 @@ class Node : public std::enable_shared_from_this<Node<T>> {
     /**************************************
                    Backprop
     ***************************************/
-    void backward() {
+    void get_gradients()() {
         std::vector<Expression> sorted_nodes = input_topological_ordering();
 
         for (auto& node : sorted_nodes) {
