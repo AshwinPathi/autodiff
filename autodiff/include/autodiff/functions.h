@@ -59,7 +59,7 @@ Expression<T> tanh(const Expression<T>& expr) {
     
     Node<T>* weak_ref = new_expr.get();
     new_expr->set_backprop_fn(
-        [expr, weak_ref]() { expr->accumulate_grad((1 - std::pow(std::tanh(expr->value), 2)) * weak_ref->grad()); });
+        [expr, weak_ref]() { expr->accumulate_grad((1 - std::pow(std::tanh(expr->value()), 2)) * weak_ref->grad()); });
     return new_expr;
 }
 
