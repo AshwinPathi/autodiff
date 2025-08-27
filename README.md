@@ -1,1 +1,1 @@
-extremely inefficient version of autodiff in C++. Only works on scalar values, unless you want to have an array of a bunch of shared pointers.
+See folders for more info
