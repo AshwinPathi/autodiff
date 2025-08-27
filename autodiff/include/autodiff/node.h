@@ -180,10 +180,6 @@ class Node : public std::enable_shared_from_this<Node<T>> {
     friend Expression operator/(T scalar, const Expression& rhs) {
         return std::make_shared<Node<T>>(scalar) / rhs;
     }
-    friend Expression pow(T scalar, const Expression& rhs) {
-        Expression pow_base = std::make_shared<Node<T>>(scalar);
-        return pow_base.pow(rhs);
-    }
 
     friend Expression operator+(const Expression& lhs, const Expression& rhs) {
         return (*lhs) + rhs;
@@ -196,9 +192,6 @@ class Node : public std::enable_shared_from_this<Node<T>> {
     }
     friend Expression operator/(const Expression& lhs, const Expression& rhs) {
         return (*lhs) / rhs;
-    }
-    friend Expression pow(const Expression& lhs, const Expression& rhs) {
-        return lhs.pow(rhs);
     }
 
    private:

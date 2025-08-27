@@ -7,6 +7,17 @@
 namespace grad {
 
 template <Numeric T>
+Expression<T> pow(T scalar, const Expression<T>& rhs) {
+    Expression<T> pow_base = std::make_shared<Node<T>>(scalar);
+    return pow_base->pow(rhs);
+}
+
+template <Numeric T>
+Expression<T> pow(const Expression<T>& lhs, const Expression<T>& rhs) {
+    return lhs.pow(rhs);
+}
+
+template <Numeric T>
 Expression<T> sin(const Expression<T>& expr) {
     const T operation_result = std::sin(expr->value());
     Expression<T> new_expr = std::make_shared<Node<T>>(operation_result, Op::SIN,
