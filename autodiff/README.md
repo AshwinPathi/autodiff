@@ -1,4 +1,9 @@
-extremely inefficient version of autodiff in C++. Only works on scalar values, unless you want to have an array of a bunch of shared pointers.
+# Jax/Pytorch/Tensorflow Kind of Clone
+
+Extremely inefficient version of autodiff in C++. Only works on scalar values, unless you want to have an array of a bunch of shared pointers.
+
+# How to use
+`./run_build.sh`
 
 # TODO
 - [ ] Clean up `node.h`
