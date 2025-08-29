@@ -1,11 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 project(my_project VERSION 1.0 LANGUAGES CXX)
 
-# Force clang
-set(CMAKE_C_COMPILER clang)
-set(CMAKE_CXX_COMPILER clang++)
-
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add include directory for headers
@@ -13,20 +9,48 @@ include_directories(include)
 
 # Collect all source files (or list them manually)
 file(GLOB_RECURSE SOURCES "src/*.cpp")
-
-# Create executable
 add_executable(my_project ${SOURCES})
 
-# Enable AddressSanitizer if supported
+# ------------------------------
+# AddressSanitizer toggle
+# ------------------------------
 option(ENABLE_ASAN "Enable AddressSanitizer" ON)
 
 if(ENABLE_ASAN)
     message(STATUS "AddressSanitizer enabled")
+    set(ASAN_FLAGS "-fsanitize=address")
+    add_compile_options(${ASAN_FLAGS})
+    add_link_options(${ASAN_FLAGS})
+endif()
 
-    # Append flags for Clang/GCC
-    set(ASAN_FLAGS "-fsanitize=address -fno-omit-frame-pointer")
+# ------------------------------
+# GoogleTest
+# ------------------------------
+include(FetchContent)
 
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ASAN_FLAGS}")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ASAN_FLAGS}")
-    set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} ${ASAN_FLAGS}")
+# Prevent gtest from building its own tests
+set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
+set(BUILD_GTEST OFF CACHE BOOL "" FORCE)
+set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
+
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
+)
+FetchContent_MakeAvailable(googletest)
+
+enable_testing()
+
+file(GLOB_RECURSE TEST_SOURCES "tests/*.cpp")
+
+if(TEST_SOURCES)
+    add_executable(my_tests ${TEST_SOURCES})
+    target_link_libraries(my_tests
+        PRIVATE
+            GTest::gtest
+            GTest::gtest_main
+            # my_project
+    )
+    include(GoogleTest)
+    gtest_discover_tests(my_tests)
 endif()

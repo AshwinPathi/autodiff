@@ -1,4 +1,13 @@
 #!/bin/bash
+
+SKIP_TESTS=0
+while getopts "s" opt; do
+    case $opt in
+        s) SKIP_TESTS=1 ;;
+        *) echo "Usage: $0 [-s] (s flag skips tests)" && exit 1 ;;
+    esac
+done
+
 cwd=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # Set up cmake build directory if it isn't already setup
@@ -19,6 +28,11 @@ cd "${build_directory}"
 cmake ..
 cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_ASAN=ON ..
 cmake --build .
+if [ $SKIP_TESTS -eq 0 ]; then
+    ctest --output-on-failure
+else
+    echo "Skipping tests"
+fi
 
 # copy to root for convenience
 cp my_project ../run
