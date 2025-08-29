@@ -45,7 +45,7 @@ class Node : public std::enable_shared_from_this<Node<T>> {
         set_grad(1);
 
         for (auto& subexpr : sorted_nodes) {
-            if (sobexpr->op == Op::VARIABLE) {
+            if (subexpr->op_ == Op::VARIABLE) {
                 throw std::runtime_error("Cannot backprop on variable "+ subexpr->var_name_ + " without applying a value to it.");
                 continue;
             }
