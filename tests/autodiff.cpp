@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
-#include "autodiff/functions.h"
+
 #include <numbers>
+
+#include "autodiff/functions.h"
 
 TEST(AutodiffTest, ConstantGradientTestSigmoid) {
     auto x = grad::constant(1.f);

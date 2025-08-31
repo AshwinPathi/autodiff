@@ -40,17 +40,15 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 
 enable_testing()
+include(GoogleTest)
 
-file(GLOB_RECURSE TEST_SOURCES "tests/*.cpp")
+file(GLOB TEST_SOURCES "tests/*.cpp")
 
 if(TEST_SOURCES)
-    add_executable(my_tests ${TEST_SOURCES})
-    target_link_libraries(my_tests
-        PRIVATE
-            GTest::gtest
-            GTest::gtest_main
-            # my_project
-    )
-    include(GoogleTest)
-    gtest_discover_tests(my_tests)
+    foreach(test_src ${TEST_SOURCES})
+        get_filename_component(test_name ${test_src} NAME_WE)
+        add_executable(${test_name} ${test_src})
+        target_link_libraries(${test_name} PRIVATE GTest::gtest_main)
+        gtest_discover_tests(${test_name})
+    endforeach()
 endif()

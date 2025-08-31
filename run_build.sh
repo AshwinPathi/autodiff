@@ -25,8 +25,8 @@ fi
 
 # build with cmake
 cd "${build_directory}"
-cmake ..
-cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_ASAN=ON ..
+# cmake -Wno-dev ..
+cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_ASAN=ON -Wno-dev ..
 cmake --build .
 if [ $SKIP_TESTS -eq 0 ]; then
     ctest --output-on-failure

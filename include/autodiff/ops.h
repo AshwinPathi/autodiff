@@ -23,7 +23,7 @@ enum class Op : uint8_t {
     LN,
 };
 
-bool is_unary_op(Op op) {
+inline bool is_unary_op(Op op) {
     switch (op) {
         case Op::NEGATE:
         case Op::SIN:
@@ -38,7 +38,7 @@ bool is_unary_op(Op op) {
     }
 }
 
-bool is_binary_op(Op op) {
+inline bool is_binary_op(Op op) {
     switch (op) {
         case Op::ADD:
         case Op::SUB:
@@ -52,7 +52,7 @@ bool is_binary_op(Op op) {
 }
 
 template <Numeric T>
-T evaluate_unary_op(Op op, T input) {
+inline T evaluate_unary_op(Op op, T input) {
     switch (op) {
         case Op::NEGATE:
             return -input;
@@ -74,7 +74,7 @@ T evaluate_unary_op(Op op, T input) {
 }
 
 template <Numeric T>
-T evaluate_binary_op(Op op, T input1, T input2) {
+inline T evaluate_binary_op(Op op, T input1, T input2) {
     switch (op) {
         case Op::ADD:
             return input1 + input2;
