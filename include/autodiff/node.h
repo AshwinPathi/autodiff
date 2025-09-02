@@ -9,6 +9,7 @@
 
 #include "autodiff/concepts.h"
 #include "autodiff/ops.h"
+#include "autodiff/graph_helpers.h"
 
 namespace grad {
 
@@ -249,24 +250,15 @@ class Node : public std::enable_shared_from_this<Node<T>> {
     std::vector<ExpressionPtr> input_topological_ordering() {
         std::vector<ExpressionPtr> sorted;
 
-        std::unordered_set<ExpressionPtr> visited;
-        std::queue<ExpressionPtr> q;
-        auto start = this->shared_from_this();
-        q.push(start);
-        visited.insert(start);
-
-        while (!q.empty()) {
-            auto subexpr = q.front();
-            q.pop();
-            sorted.push_back(subexpr);
-            for (const auto& next_expr : subexpr->get_inputs()) {
-                if (visited.find(next_expr) != visited.end()) {
-                    continue;
-                }
-                q.push(next_expr);
-                visited.insert(next_expr);
+        graph::traverse<graph::TraversalType::BFS, ExpressionPtr>(
+            this->shared_from_this(),
+            [](const ExpressionPtr& node) {
+                return node->get_inputs();
+            },
+            [&sorted](const ExpressionPtr& node) {
+                sorted.push_back(node);
             }
-        }
+        );
 
         return sorted;
     }

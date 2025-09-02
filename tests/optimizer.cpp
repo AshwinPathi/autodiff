@@ -32,6 +32,4 @@ TEST(OptimizerTest, TestConstantFolding) {
     float optimized_value = optimized_expr->evaluate();
 
     EXPECT_FLOAT_EQ(original_value, optimized_value);
-
-    ASSERT_TRUE(false);
 }

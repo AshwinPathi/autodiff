@@ -5,7 +5,7 @@
 #include <algorithm>
 
 #include "autodiff/node.h"
-#include "autodiff/optimizer/graph_helpers.h"
+#include "autodiff/graph_helpers.h"
 
 namespace grad::optimizer {
 
@@ -48,7 +48,12 @@ private:
     }
 
     void fold_constants(ExpressionPtr<T> expression) {
-        graph::traverse<graph::TraversalType::DFS>(expression, [](ExpressionPtr<T> node) {
+        graph::traverse<graph::TraversalType::DFS, ExpressionPtr<T>>(expression,
+            [](const ExpressionPtr<T>& node) {
+                return node->get_inputs();
+            },
+
+            [](ExpressionPtr<T> node) {
             if (node->get_op() == Op::CONSTANT) {
                 // TODO - Cache evaluations so we don't keep recomputing this value.
                 // TODO - have some cost function so that we don't fold everything
