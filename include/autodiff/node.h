@@ -6,6 +6,7 @@
 #include <unordered_set>
 #include <vector>
 #include <cmath>
+#include <string>
 
 #include "autodiff/concepts.h"
 #include "autodiff/ops.h"
@@ -236,8 +237,14 @@ class Node : public std::enable_shared_from_this<Node<T>> {
         std::string repr = "";
         if (op_ == Op::VARIABLE) {
             repr += "Var(" + var_name_ + ")";
+        } else if (op_ == Op::CONSTANT) {
+            repr += "Const(" + std::to_string(value_) + ")";
+        } else if (is_unary_op(op_)) {
+            repr += op_to_string(op_) + "(" + inputs_[0]->to_string() + ")";
+        } else if (is_binary_op(op_)) {
+            repr += op_to_string(op_) + "(" + inputs_[0]->to_string() + ", " + inputs_[1]->to_string() + ")";
         } else {
-            repr += "Op(" + op_to_string(op_) + ", " + std::to_string(value_) + ")";
+            repr +=  op_to_string(op_) + "(UNKNOWN)";
         }
         return repr;
     }

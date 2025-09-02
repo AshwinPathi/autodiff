@@ -4,6 +4,12 @@
 
 #include "autodiff/functions.h"
 
+TEST(AutodiffTest, ToStringTest) {
+    auto x = grad::constant(1.f) + grad::variable<float>("x");
+    auto res = x->to_string();
+    EXPECT_EQ(res, "ADD(Const(1.000000), Var(x))");
+}
+
 TEST(AutodiffTest, ConstantGradientTestSigmoid) {
     auto x = grad::constant(1.f);
 

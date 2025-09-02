@@ -21,6 +21,9 @@ TEST(OptimizerTest, TestConstantFolding) {
     };
     ExpressionF optimized_expr = optimize(expr, passes);
 
+    EXPECT_EQ(original_expr->to_string(), "ADD(MUL(Var(x), Const(2.000000)), MUL(Const(3.000000), Const(4.000000)))");
+    EXPECT_EQ(optimized_expr->to_string(), "ADD(MUL(Var(x), Const(2.000000)), Const(12.000000))");
+
     std::unordered_map<std::string, grad::ExpressionF> variables {
         {"x", grad::constant(4.f)},
     };
