@@ -7,6 +7,7 @@ Extremely inefficient version of autodiff in C++. Only works on scalar values, u
 
 # TODO
 - [ ] Clean up `node.h`
+    - [ ] Add option for lazy evaluation, where operations are not computed at graph construction time (some `std::optional<T> value` type thing)
     - [ ] Optimize variable application
     - [ ] Cache forward passes
     - [ ] Make it less state-y

@@ -91,6 +91,11 @@ class Node : public std::enable_shared_from_this<Node<T>> {
 
     void set_backprop_fn(BackpropFnType fn) { backprop_fn_ = fn; }
 
+    void mark_as_const() { op_ = Op::CONSTANT; }
+    Op get_op() const { return op_; }
+
+    void clear_inputs() { inputs_.clear(); }
+
     /**************************************
             Arithmetic operations
     ***************************************/
@@ -220,6 +225,20 @@ class Node : public std::enable_shared_from_this<Node<T>> {
     }
     friend ExpressionPtr operator/(const ExpressionPtr& lhs, const ExpressionPtr& rhs) {
         return (*lhs) / rhs;
+    }
+
+
+    /**************************************
+                    Helpers
+    ***************************************/
+    std::string to_string() const {
+        std::string repr = "";
+        if (op_ == Op::VARIABLE) {
+            repr += "Var(" + var_name_ + ")";
+        } else {
+            repr += "Op(" + op_to_string(op_) + ", " + std::to_string(value_) + ")";
+        }
+        return repr;
     }
 
    private:

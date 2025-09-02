@@ -8,7 +8,7 @@ template<Numeric T>
 class Pass {
 public:
     virtual ~Pass() = default;
-    virtual ExpressionPtr<T> apply_pass(const ExpressionPtr<T>& expression) = 0;
+    virtual ExpressionPtr<T> apply_pass(ExpressionPtr<T> expression) = 0;
 };
 
 } // grad::optimizer

@@ -9,7 +9,7 @@ class CommonSubexpressionElimPass : public Pass<T> {
 public:
     ~CommonSubexpressionElimPass() override = default;
 
-    ExpressionPtr<T> apply_pass(const ExpressionPtr<T>& expression) override {
+    ExpressionPtr<T> apply_pass(ExpressionPtr<T> expression) override {
 
         return expression;
     }

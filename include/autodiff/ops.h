@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "autodiff/concepts.h"
 
 namespace grad {
@@ -91,4 +93,40 @@ inline T evaluate_binary_op(Op op, T input1, T input2) {
     }
 }
 
+inline std::string op_to_string(Op op) {
+    switch (op) {
+        case Op::UNKNOWN:
+            return "UNKNOWN";
+        case Op::CONSTANT:
+            return "CONSTANT";
+        case Op::VARIABLE:
+            return "VARIABLE";
+        case Op::ADD:
+            return "ADD";
+        case Op::SUB:
+            return "SUB";
+        case Op::MUL:
+            return "MUL";
+        case Op::DIV:
+            return "DIV";
+        case Op::NEGATE:
+            return "NEGATE";
+        case Op::POW:
+            return "POW";
+        case Op::SIN:
+            return "SIN";
+        case Op::COS:
+            return "COS";
+        case Op::EXP:
+            return "EXP";
+        case Op::TAN:
+            return "TAN";
+        case Op::TANH:
+            return "TANH";
+        case Op::LN:
+            return "LN";
+        default:
+            return "INVALID_OP";
+    }
+}
 }  // namespace grad
